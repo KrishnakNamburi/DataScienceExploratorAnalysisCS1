@@ -1,0 +1,36 @@
+---
+title: "Plot1.R"
+author: "Krishna Namburi"
+date: "June 6, 2016"
+output: pdf_document
+---
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+
+#get the current working directory 
+ getwd()
+#[1] "C:/Users/Krishna/Documents/R/R EXDA CS1"
+#find the files in the directory to check data exists.
+ list.files()
+#[1] "ExdaPlot1.Rmd"                   "household_power_consumption.txt"
+#load data file and tables
+ data_file <- "./household_power_consumption.txt"
+ data_table <- read.table(data_file, header=TRUE, sep=";", stringsAsFactors=FALSE, dec=".")
+ 
+#We will only be using data from the dates 2007-02-01 and 2007-02-02. One alternative is to read the #data from just those dates rather than reading in the entire dataset and subsetting to those dates. 
+subSetData <- data_table[data_table$Date %in% c("1/2/2007","2/2/2007") ,]
+summary(subSetData)
+
+#Construct the plot and save it to a PNG file with a width of 480 pixels and a height of 480 pixels.
+#choose the data
+globalActivePower <- as.numeric(subSetData$Global_active_power)
+#set the graphics device to png
+png("plot1.png", width=480, height=480)
+#plot
+hist(globalActivePower, col="red", main="Global Active Power", xlab="Global Active Power (kilowatts)")
+#switch of the graph device.
+dev.off()
+
